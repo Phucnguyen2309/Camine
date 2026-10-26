@@ -5,7 +5,7 @@ const CartContext = createContext(null)
 export const FREE_SHIP_FROM = 499000
 export const SHIP_FEE = 30000
 export const VOUCHERS = {
-  CAMINE30: { label: 'Giảm 30% (tối đa 200.000đ)', calc: (sub) => Math.min(sub * 0.3, 200000) },
+  CANIME30: { label: 'Giảm 30% (tối đa 200.000đ)', calc: (sub) => Math.min(sub * 0.3, 200000) },
   BOSS50K: { label: 'Giảm 50.000đ cho đơn từ 300.000đ', calc: (sub) => (sub >= 300000 ? 50000 : 0) },
 }
 

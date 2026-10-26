@@ -1,4 +1,4 @@
-# Camine — UI cửa hàng thức ăn thú cưng (React + Vite)
+# Canimé — UI cửa hàng thức ăn thú cưng (React + Vite)
 
 ## Chạy dự án
 ```bash
@@ -9,8 +9,8 @@ npm run build    # xuất bản ra thư mục dist/
 
 ## Cấu trúc
 ```
-public/camine-logo.svg        Logo vector (dùng làm favicon)
-src/assets/camine-logo.svg    Logo dùng trong giao diện
+public/canime-logo.svg        Logo vector (dùng làm favicon)
+src/assets/canime-logo.svg    Logo dùng trong giao diện
 src/data/products.js          Dữ liệu sản phẩm mẫu, danh mục, đánh giá
 src/context/CartContext.jsx   Giỏ hàng (thêm/bớt/xoá, mã giảm giá, phí ship, tổng tiền)
 src/components/
@@ -29,7 +29,7 @@ src/styles/global.css         Toàn bộ style, biến màu ở :root
 - **Chó nhìn theo chuột:** độ quay đầu / lệch mặt / con ngươi chỉnh ở `headTurn`, `faceShift`, `pupil` trong `AnimatedDog.jsx`
 
 ## Mã giảm giá để test
-- `CAMINE30` — giảm 30% (tối đa 200.000đ)
+- `CANIME30` — giảm 30% (tối đa 200.000đ)
 - `BOSS50K` — giảm 50.000đ cho đơn từ 300.000đ
 - Miễn phí giao hàng cho đơn từ 499.000đ
 

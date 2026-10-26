@@ -1,5 +1,5 @@
 import { PetShapes } from './PetArt.jsx'
-import logoUrl from '../assets/camine-logo.svg'
+import logoUrl from '../assets/canime-logo.svg'
 
 // Bao bì sản phẩm vẽ bằng SVG (không dùng ảnh thương hiệu khác)
 const isLight = (hex) => {
@@ -104,7 +104,7 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
           <g>
             <circle cx="100" cy={top + 11} r="12" fill="#FFF8E7" />
             <image href={logoUrl} x="91" y={top + 2} width="18" height="18" />
-            <text x="100" y={top + 38} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="15" letterSpacing="3" fill={pack === 'can' ? '#9B111E' : ink}>CAMINE</text>
+            <text x="100" y={top + 38} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="15" letterSpacing="3" fill={pack === 'can' ? '#9B111E' : ink}>CANIMÉ</text>
           </g>
         )
       })()}

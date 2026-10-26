@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from './Icons.jsx'
 import PetArt from './PetArt.jsx'
-import logoUrl from '../assets/camine-logo.svg'
+import logoUrl from '../assets/canime-logo.svg'
 import { CATEGORIES } from '../data/products.js'
 
 /* ---------- Thống kê (đếm số khi cuộn tới) ---------- */
@@ -66,14 +66,14 @@ export function Quote() {
     <section className="quote">
       <div className="container quote__grid">
         <div className="quote__art">
-          <div className="quote__circle"><img src={logoUrl} alt="Logo Camine" /></div>
+          <div className="quote__circle"><img src={logoUrl} alt="Logo Canimé" /></div>
           <PetArt kind="dog" size={120} className="quote__pet quote__pet--dog" />
           <PetArt kind="cat" size={110} className="quote__pet quote__pet--cat" />
         </div>
         <blockquote>
           <span className="quote__mark">“</span>
           <p>Từ trái tim đến chiếc bát nhỏ,<br />dinh dưỡng trọn vẹn cho thân và tâm.<br />Khoẻ hơn, vui hơn mỗi ngày —<br />trong từng miếng ăn là yêu thương.</p>
-          <footer><span className="leaf-line" /> Đội ngũ Camine <span className="leaf-line" /></footer>
+          <footer><span className="leaf-line" /> Đội ngũ Canimé <span className="leaf-line" /></footer>
         </blockquote>
       </div>
     </section>
@@ -88,7 +88,7 @@ export function About() {
         <div className="about__text">
           <h2 className="h2">VỀ <span>CHÚNG TÔI</span></h2>
           <p>
-            Camine bắt đầu từ một căn bếp nhỏ ở Sài Gòn, nơi tụi mình tự nấu cơm cho mấy bé chó mèo nhặt về. Giờ đây, mỗi công thức
+            Canimé bắt đầu từ một căn bếp nhỏ ở Sài Gòn, nơi tụi mình tự nấu cơm cho mấy bé chó mèo nhặt về. Giờ đây, mỗi công thức
             đều được bác sĩ thú y góp ý, nguyên liệu truy xuất rõ nguồn gốc và đóng gói trong ngày.
           </p>
           <p>Tụi mình tin: thú cưng ăn đúng thì ít bệnh, vui hơn — và sống lâu hơn bên bạn.</p>
@@ -162,7 +162,7 @@ export function Offer({ onShop }) {
         <div className="offer__copy">
           <span className="offer__kicker">Ưu đãi đặc biệt</span>
           <h2>GIẢM 30%</h2>
-          <p>cho dòng hạt cao cấp — nhập mã <code>CAMINE30</code></p>
+          <p>cho dòng hạt cao cấp — nhập mã <code>CANIME30</code></p>
           <div className="countdown">
             {parts.map((p, i) => (
               <div key={i}><b>{String(p).padStart(2, '0')}</b><small>{['Ngày', 'Giờ', 'Phút', 'Giây'][i]}</small></div>
