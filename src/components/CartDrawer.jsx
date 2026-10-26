@@ -13,7 +13,7 @@ export function VoucherBox() {
     e.preventDefault()
     const c = code.trim().toUpperCase()
     if (VOUCHERS[c]) { setVoucher(c); setErr(''); setCode('') }
-    else setErr('Mã không hợp lệ. Thử CAMINE30 hoặc BOSS50K')
+    else setErr('Mã không hợp lệ. Thử CANIME30 hoặc BOSS50K')
   }
   if (voucher) {
     return (

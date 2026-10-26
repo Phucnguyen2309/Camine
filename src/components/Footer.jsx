@@ -24,7 +24,7 @@ export default function Footer() {
         <div>
           <h4>Về chúng tôi</h4>
           <a href="#">Trang chủ</a>
-          <a href="#">Câu chuyện Camine</a>
+          <a href="#">Câu chuyện Canimé</a>
           <a href="#">Thức ăn</a>
           <a href="#">Liên hệ</a>
         </div>
@@ -37,11 +37,11 @@ export default function Footer() {
         <div>
           <h4>Liên hệ</h4>
           <span className="footer__line"><Icon name="phone" size={16} /> 0901 234 567</span>
-          <span className="footer__line"><Icon name="mail" size={16} /> hello@camine.vn</span>
+          <span className="footer__line"><Icon name="mail" size={16} /> hello@canime.vn</span>
           <span className="footer__line"><Icon name="pin" size={16} /> 123 Lê Lợi, Q.1, TP.HCM</span>
         </div>
       </div>
-      <div className="footer__bottom">© 2026 Camine. Bảo lưu mọi quyền.</div>
+      <div className="footer__bottom">© 2026 Canimé. Bảo lưu mọi quyền.</div>
     </footer>
   )
 }

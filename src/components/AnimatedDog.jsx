@@ -123,7 +123,7 @@ export default function AnimatedDog({ className = '' }) {
         <g className="dog__tag">
           <circle cx="200" cy="270" r="5" fill="none" stroke="#C99400" strokeWidth="3" />
           <path d="M172 284 a8 8 0 1 1 8-10 h40 a8 8 0 1 1 8 10 a8 8 0 1 1 -8 10 h-40 a8 8 0 1 1 -8 -10Z" fill="url(#gold)" stroke="#B88700" strokeWidth="1.5" />
-          <text x="200" y="288" textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="10" fill="#7A4E00" letterSpacing="1">CAMINE</text>
+          <text x="200" y="288" textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="10" fill="#7A4E00" letterSpacing="1">CANIMÉ</text>
         </g>
 
         {/* đầu */}

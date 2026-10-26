@@ -44,7 +44,7 @@ export default function Checkout({ onBack }) {
     setLoading(true)
     setTimeout(() => {
       setDone({
-        code: 'CMN-' + Math.floor(100000 + Math.random() * 900000),
+        code: 'CNM-' + Math.floor(100000 + Math.random() * 900000),
         total: grand, count: totals.count, name: form.name, phone: form.phone,
         address: `${form.address}, ${form.district ? form.district + ', ' : ''}${form.city}`,
         ship: SHIP.find((s) => s.id === ship).name, pay: PAY.find((p) => p.id === pay).name,
@@ -156,7 +156,7 @@ export default function Checkout({ onBack }) {
                   <FakeQR />
                   <div>
                     <b>{pay === 'bank' ? 'Quét mã bằng app ngân hàng' : 'Mở ví và quét mã'}</b>
-                    <p>Số tiền: <b>{formatVND(grand)}</b><br />Nội dung: <code>CAMINE {form.phone || 'SĐT'}</code></p>
+                    <p>Số tiền: <b>{formatVND(grand)}</b><br />Nội dung: <code>CANIME {form.phone || 'SĐT'}</code></p>
                     <small>Mã QR sẽ được tạo chính thức sau khi bấm Đặt hàng.</small>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export default function Checkout({ onBack }) {
               <button className="btn btn--primary btn--block" type="submit" disabled={loading}>
                 {loading ? <span className="spinner" /> : <>Đặt hàng <Icon name="arrowRight" size={18} /></>}
               </button>
-              <p className="fine">Bằng việc đặt hàng, bạn đồng ý với Điều khoản dịch vụ của Camine.</p>
+              <p className="fine">Bằng việc đặt hàng, bạn đồng ý với Điều khoản dịch vụ của Canimé.</p>
             </div>
           </aside>
         </form>
