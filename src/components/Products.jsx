@@ -1,12 +1,12 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import PackShot from './PackShot.jsx'
 import { Icon, Stars } from './Icons.jsx'
 import { PRODUCTS, TYPES, CATEGORIES, formatVND } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
 
-const tint = (hex) => hex + '22'
+const tintOf = (hex) => (hex === '#FFF8E7' ? '#F3E6CC' : hex + '24')
 
-export function ProductCard({ p, onOpen, variant = 'tile' }) {
+export function ProductCard({ p, onOpen }) {
   const { add } = useCart()
   const [liked, setLiked] = useState(false)
   const [added, setAdded] = useState(false)
@@ -19,27 +19,27 @@ export function ProductCard({ p, onOpen, variant = 'tile' }) {
   }
 
   return (
-    <article className={'pcard pcard--' + variant} onClick={() => onOpen(p)} tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onOpen(p)}>
-      <div className="pcard__media" style={{ '--tint': p.color === '#FFF8E7' ? '#F3E6CC' : tint(p.color) }}>
+    <article className="pcard" onClick={() => onOpen(p)} tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpen(p)}>
+      <div className="pcard__media" style={{ '--tint': tintOf(p.color) }}>
         {p.badge && <span className={'pcard__badge' + (p.badge.startsWith('-') ? ' is-sale' : '')}>{p.badge}</span>}
         <button className={'pcard__like' + (liked ? ' is-on' : '')} aria-label="Yêu thích"
           onClick={(e) => { e.stopPropagation(); setLiked((l) => !l) }}>
-          <Icon name="heart" size={18} />
+          <Icon name="heart" size={17} />
         </button>
-        <div className="pcard__shot"><PackShot product={p} size={variant === 'round' ? 104 : 140} /></div>
-        <span className="pcard__quick"><Icon name="eye" size={16} /> Xem nhanh</span>
+        <div className="pcard__shot"><PackShot product={p} size={150} /></div>
+        <span className="pcard__quick"><Icon name="eye" size={15} /> Xem nhanh</span>
       </div>
       <div className="pcard__body">
+        <span className="pcard__pet">Cho {p.pet === 'dog' ? 'chó' : 'mèo'} · {p.weights[0].label}</span>
         <h3 className="pcard__name">{p.name}</h3>
-        <div className="pcard__meta"><Stars value={p.rating} size={13} /> <small>({p.reviews})</small><small className="dotsep">Đã bán {p.sold}</small></div>
+        <div className="pcard__meta"><Stars value={p.rating} size={12} /> <small>{p.rating} ({p.reviews})</small></div>
         <div className="pcard__foot">
           <div className="pcard__price">
             <b>{formatVND(p.price)}</b>
-            {p.oldPrice ? <s>{formatVND(p.oldPrice)}</s> : <s className="is-empty">&nbsp;</s>}
+            {p.oldPrice && <s>{formatVND(p.oldPrice)}</s>}
           </div>
           <button className={'pcard__add' + (added ? ' is-added' : '')} onClick={handleAdd} aria-label="Thêm vào giỏ">
-            <Icon name={added ? 'check' : 'cart'} size={18} />
+            <Icon name={added ? 'check' : 'plus'} size={18} sw={2.4} />
           </button>
         </div>
       </div>
@@ -47,33 +47,65 @@ export function ProductCard({ p, onOpen, variant = 'tile' }) {
   )
 }
 
-export function BestSeller({ onOpen, onViewAll }) {
+/* ================= NEW COLLECTION + trình chiếu sản phẩm bán chạy ================= */
+export function Collection({ onOpen, onViewAll }) {
   const track = useRef(null)
   const list = PRODUCTS.filter((p) => p.best)
-  const scroll = (dir) => {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
     const el = track.current
-    el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: 'smooth' })
+    if (!el) return
+    const f = () => {
+      const card = el.firstElementChild
+      if (!card) return
+      setIdx(Math.round(el.scrollLeft / (card.offsetWidth + 22)))
+    }
+    el.addEventListener('scroll', f, { passive: true })
+    return () => el.removeEventListener('scroll', f)
+  }, [])
+
+  const go = (dir) => {
+    const el = track.current
+    const card = el.firstElementChild
+    el.scrollBy({ left: dir * (card.offsetWidth + 22), behavior: 'smooth' })
   }
+
   return (
-    <section className="section" id="best">
+    <section className="section collection" id="best">
       <div className="container">
-        <div className="section-head">
-          <h2 className="h2">BÁN <span>CHẠY NHẤT</span></h2>
-          <button className="btn btn--ghost btn--sm" onClick={onViewAll}>Xem tất cả <Icon name="chevRight" size={16} /></button>
+        <div className="collection__intro">
+          <div className="reveal">
+            <span className="eyebrow">New</span>
+            <h2 className="collection__title display">Bộ sưu tập</h2>
+          </div>
+          <p className="reveal">
+            Ghé vào căn bếp nhỏ của Canimé, nơi thịt gà, cá hồi và bí đỏ biến thành những túi hạt giòn thơm. Bữa ngon mùa thu mang
+            vị ấm áp của rau củ nướng, dịu nhẹ cho bụng bé.
+          </p>
+          <div className="reveal">
+            <p>Sắc vàng ấm, hạt nhỏ vừa miệng và mùi thơm tự nhiên — dành cho những ngày bạn muốn thưởng cho Boss thêm chút ngon.</p>
+            <button className="btn btn--cyan btn--sm" onClick={onViewAll}>Tìm hiểu thêm</button>
+          </div>
         </div>
-        <div className="carousel">
-          <button className="carousel__btn carousel__btn--l" onClick={() => scroll(-1)} aria-label="Trước"><Icon name="chevLeft" /></button>
-          <div className="carousel__track" ref={track}>
+
+        <div className="slides reveal">
+          <div className="slides__track" ref={track}>
             {list.map((p) => <ProductCard key={p.id} p={p} onOpen={onOpen} />)}
           </div>
-          <button className="carousel__btn carousel__btn--r" onClick={() => scroll(1)} aria-label="Sau"><Icon name="chevRight" /></button>
+          <div className="slides__ctrl">
+            <button className="slides__btn" onClick={() => go(-1)} aria-label="Trước"><Icon name="arrowLeft" size={18} /></button>
+            <span className="slides__count display">{String(Math.min(idx + 1, list.length)).padStart(2, '0')} <i>/</i> {String(list.length).padStart(2, '0')}</span>
+            <button className="slides__btn" onClick={() => go(1)} aria-label="Sau"><Icon name="arrowRight" size={18} /></button>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-export function PetFood({ onOpen, query, setQuery, pet, setPet }) {
+/* ================= Cửa hàng ================= */
+export function Shop({ onOpen, query, setQuery, pet, setPet }) {
   const [type, setType] = useState('all')
   const [sort, setSort] = useState('pop')
   const [limit, setLimit] = useState(8)
@@ -94,10 +126,13 @@ export function PetFood({ onOpen, query, setQuery, pet, setPet }) {
   const petName = CATEGORIES.find((c) => c.id === pet)?.name
 
   return (
-    <section className="section section--alt" id="food">
+    <section className="section shop" id="shop">
       <div className="container">
-        <div className="section-head">
-          <h2 className="h2">THỨC ĂN <span>CHO BÉ</span></h2>
+        <div className="section-head reveal">
+          <div>
+            <span className="eyebrow">Cửa hàng</span>
+            <h2 className="h2 display">Có sẵn tại tiệm</h2>
+          </div>
           <select className="select" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sắp xếp">
             <option value="pop">Phổ biến</option>
             <option value="rate">Đánh giá cao</option>
@@ -108,32 +143,35 @@ export function PetFood({ onOpen, query, setQuery, pet, setPet }) {
 
         <div className="filters">
           <div className="tabs">
-            {TYPES.map((t) => (
+            {[{ id: 'all', name: 'Tất cả' }, ...CATEGORIES.map((c) => ({ id: c.id, name: 'Cho ' + c.name.toLowerCase() }))].map((t) => (
+              <button key={t.id} className={'tab' + (pet === t.id ? ' is-active' : '')} onClick={() => setPet(t.id)}>{t.name}</button>
+            ))}
+          </div>
+          <div className="tabs tabs--soft">
+            {TYPES.map((t) => ({ ...t, name: t.id === 'all' ? 'Mọi món' : t.name })).map((t) => (
               <button key={t.id} className={'tab' + (type === t.id ? ' is-active' : '')} onClick={() => setType(t.id)}>{t.name}</button>
             ))}
           </div>
           <div className="chips">
-            {pet !== 'all' && <button className="chip" onClick={() => setPet('all')}>Cho {petName?.toLowerCase()} <Icon name="close" size={14} /></button>}
             {query && <button className="chip" onClick={() => setQuery('')}>“{query}” <Icon name="close" size={14} /></button>}
-            <span className="filters__count">{list.length} sản phẩm</span>
+            <span className="filters__count">{list.length} sản phẩm{petName ? ' cho ' + petName.toLowerCase() : ''}</span>
           </div>
         </div>
 
         {list.length ? (
           <div className="grid">
-            {list.slice(0, limit).map((p) => <ProductCard key={p.id} p={p} onOpen={onOpen} variant="round" />)}
+            {list.slice(0, limit).map((p) => <ProductCard key={p.id} p={p} onOpen={onOpen} />)}
           </div>
-        ) : null}
+        ) : (
+          <div className="empty">
+            <Icon name="search" size={36} />
+            <p>Chưa có món nào hợp. Thử từ khoá khác nhé!</p>
+            <button className="btn btn--ghost btn--sm" onClick={() => { setQuery(''); setPet('all'); setType('all') }}>Xoá bộ lọc</button>
+          </div>
+        )}
         {list.length > limit && (
           <div className="more">
             <button className="btn btn--ghost" onClick={() => setLimit((l) => l + 8)}>Xem thêm {list.length - limit} sản phẩm <Icon name="chevDown" size={16} /></button>
-          </div>
-        )}
-        {list.length ? null : (
-          <div className="empty">
-            <Icon name="search" size={36} />
-            <p>Chưa có sản phẩm phù hợp. Thử từ khoá khác nhé!</p>
-            <button className="btn btn--ghost btn--sm" onClick={() => { setQuery(''); setPet('all'); setType('all') }}>Xoá bộ lọc</button>
           </div>
         )}
       </div>

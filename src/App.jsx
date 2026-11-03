@@ -1,8 +1,9 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
-import { Stats, Quote, About, Categories, Offer, Features } from './components/HomeSections.jsx'
-import { BestSeller, PetFood } from './components/Products.jsx'
+import { Promos, DreamBanner, Categories, Story, Process, Blog, ChatBubble } from './components/HomeSections.jsx'
+import { Collection, Shop } from './components/Products.jsx'
+import { Marquee, useReveal } from './components/Decor.jsx'
 import Footer from './components/Footer.jsx'
 import ProductModal from './components/ProductModal.jsx'
 import CartDrawer from './components/CartDrawer.jsx'
@@ -15,21 +16,23 @@ export default function App() {
   const [product, setProduct] = useState(null)
   const [query, setQuery] = useState('')
   const [pet, setPet] = useState('all')
-  const searchRef = useRef(null)
   const { setToast } = useCart()
+
+  useReveal(page)
 
   const scrollTo = (id) => {
     const go = () => {
       if (id === 'top') return window.scrollTo({ top: 0, behavior: 'smooth' })
       const el = document.getElementById(id)
-      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' })
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' })
     }
-    if (page !== 'home') { setPage('home'); setTimeout(go, 60) } else go()
+    if (page !== 'home') { setPage('home'); setTimeout(go, 80) } else go()
   }
 
   const closeModal = useCallback(() => setProduct(null), [])
   const toCheckout = () => { setProduct(null); setToast(null); setPage('checkout'); window.scrollTo(0, 0) }
   const toHome = () => { setPage('home'); window.scrollTo(0, 0) }
+  const pickPet = (c) => { setPet(c); scrollTo('shop') }
 
   if (page === 'checkout') {
     return (
@@ -42,26 +45,25 @@ export default function App() {
 
   return (
     <>
-      <Header
-        onNav={scrollTo}
-        onCategory={(c) => { setPet(c); scrollTo('food') }}
-        onSearchClick={() => { scrollTo('top'); setTimeout(() => searchRef.current?.focus(), 400) }}
-      />
+      <Header onNav={scrollTo} onCategory={pickPet} query={query} setQuery={setQuery} onSearch={() => scrollTo('shop')} />
       <main>
-        <Hero ref={searchRef} query={query} setQuery={setQuery} onSearch={() => scrollTo('food')} />
-        <Stats />
-        <Quote />
-        <About />
-        <Categories active={pet} onPick={(c) => { setPet(c); scrollTo('food') }} />
-        <BestSeller onOpen={setProduct} onViewAll={() => { setPet('all'); setQuery(''); scrollTo('food') }} />
-        <PetFood onOpen={setProduct} query={query} setQuery={setQuery} pet={pet} setPet={setPet} />
-        <Offer onShop={() => scrollTo('food')} />
-        <Features />
+        <Hero onShop={() => scrollTo('shop')} onOffer={() => scrollTo('offer')} />
+        <Marquee items={['Canimé']} bg="#9B111E" fg="#FFF8E7" star="#FFC000" />
+        <Promos onShop={() => scrollTo('shop')} />
+        <Marquee items={['Bữa ngon mới']} bg="#FFC000" fg="#3B1F14" star="#9B111E" reverse speed="38s" />
+        <Collection onOpen={setProduct} onViewAll={() => { setPet('all'); setQuery(''); scrollTo('shop') }} />
+        <DreamBanner />
+        <Categories active={pet} onPick={pickPet} />
+        <Shop onOpen={setProduct} query={query} setQuery={setQuery} pet={pet} setPet={setPet} />
+        <Story />
+        <Process />
+        <Blog />
       </main>
-      <Footer />
+      <Footer onNav={scrollTo} />
 
+      <ChatBubble />
       <ProductModal product={product} onClose={closeModal} onOpen={setProduct} onBuyNow={toCheckout} />
-      <CartDrawer onCheckout={toCheckout} onShop={() => scrollTo('food')} />
+      <CartDrawer onCheckout={toCheckout} onShop={() => scrollTo('shop')} />
       <Toast />
     </>
   )

@@ -1,141 +1,122 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from './Icons.jsx'
 import PetArt from './PetArt.jsx'
+import { Butterfly, Sparkle } from './Decor.jsx'
 import logoUrl from '../assets/canime-logo.svg'
 import { CATEGORIES } from '../data/products.js'
 
-/* ---------- Thống kê (đếm số khi cuộn tới) ---------- */
-function useInView(ref) {
-  const [seen, setSeen] = useState(false)
+/* ================= Bộ ba ưu đãi (khối màu) ================= */
+export function Promos({ onShop }) {
+  const [left, setLeft] = useState(() => 2 * 86400 + 7 * 3600 + 25 * 60)
+  const [notify, setNotify] = useState(false)
   useEffect(() => {
-    const el = ref.current
-    if (!el || seen) return
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && setSeen(true), { threshold: 0.3 })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [ref, seen])
-  return seen
+    const t = setInterval(() => setLeft((s) => (s > 0 ? s - 1 : 0)), 1000)
+    return () => clearInterval(t)
+  }, [])
+  const parts = [Math.floor(left / 86400), Math.floor((left % 86400) / 3600), Math.floor((left % 3600) / 60), left % 60]
+
+  return (
+    <section className="promos container" id="offer">
+      <article className="promo promo--brown reveal">
+        <span className="promo__date">03 · 11 · 2026</span>
+        <span className="promo__kicker">Ra mắt bộ sưu tập</span>
+        <h2 className="display">Bữa ngon<br />mùa thu</h2>
+        <span className="promo__deal">GIẢM 10% – 30%</span>
+        <p>Ưu đãi độc quyền cho khách hàng mới. Nhập mã <b>CANIME30</b> khi thanh toán.</p>
+        <div className="countdown">
+          {parts.map((p, i) => (
+            <div key={i}><b>{String(p).padStart(2, '0')}</b><small>{['Ngày', 'Giờ', 'Phút', 'Giây'][i]}</small></div>
+          ))}
+        </div>
+        <button className="btn btn--yellow btn--sm" onClick={onShop}>Mua ngay <Icon name="arrowRight" size={16} /></button>
+        <PetArt kind="dog" size={190} className="promo__pet" />
+      </article>
+
+      <article className="promo promo--red reveal" style={{ transitionDelay: '.08s' }}>
+        <h2 className="display promo__soon">Sắp ra<br />mắt...</h2>
+        <p className="promo__sub">Pate gourmet cá hồi & bí đỏ cho hoàng thượng mèo</p>
+        <button className={'btn btn--cream btn--sm' + (notify ? ' is-done' : '')} onClick={() => setNotify(true)}>
+          {notify ? <><Icon name="check" size={16} /> Sẽ báo bạn ngay</> : <>Nhận thông báo <Icon name="bell" size={16} /></>}
+        </button>
+        <Sparkle className="promo__spark" />
+        <Sparkle className="promo__spark promo__spark--2" />
+        <PetArt kind="cat" size={170} className="promo__pet" />
+      </article>
+
+      <article className="promo promo--cyan reveal" style={{ transitionDelay: '.16s' }}>
+        <h2 className="display">Combo<br />cả nhà</h2>
+        <p>Một chó + một mèo? Gom đơn tiết kiệm đến 15%.</p>
+        <button className="link-arrow link-arrow--light" onClick={onShop}>Xem combo <Icon name="arrowRight" size={16} /></button>
+        <div className="promo__duo">
+          <PetArt kind="dog" size={96} />
+          <PetArt kind="cat" size={96} />
+        </div>
+      </article>
+    </section>
+  )
 }
 
-function Counter({ to, suffix, decimals = 0, run }) {
-  const [v, setV] = useState(0)
-  useEffect(() => {
-    if (!run) return
-    let raf, start
-    const tick = (t) => {
-      start ??= t
-      const p = Math.min(1, (t - start) / 1400)
-      setV(to * (1 - Math.pow(1 - p, 3)))
-      if (p < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [run, to])
-  return <>{v.toFixed(decimals).replace('.', ',')}{suffix}</>
-}
-
-export function Stats() {
+/* ================= Banner chữ khổng lồ (parallax) ================= */
+export function DreamBanner() {
   const ref = useRef(null)
-  const run = useInView(ref)
-  const items = [
-    { ic: 'users', to: 1.2, d: 1, s: 'M+', l: 'Khách hàng hài lòng' },
-    { ic: 'bag', to: 100, s: 'K+', l: 'Sản phẩm đã bán' },
-    { ic: 'box', to: 50, s: 'K+', l: 'Đơn hàng mỗi ngày' },
-    { ic: 'eye', to: 2, s: 'M+', l: 'Lượt ghé thăm' },
+  const [p, setP] = useState(0)
+  const k = typeof window !== 'undefined' && window.innerWidth < 640 ? 0.25 : 1
+  useEffect(() => {
+    let raf
+    const f = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const el = ref.current
+        if (!el) return
+        const r = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        setP(Math.max(-1, Math.min(1, (vh / 2 - (r.top + r.height / 2)) / vh)))
+      })
+    }
+    f(); window.addEventListener('scroll', f, { passive: true })
+    return () => { window.removeEventListener('scroll', f); cancelAnimationFrame(raf) }
+  }, [])
+
+  return (
+    <section className="dream" ref={ref} aria-label="Ăn ngon ngủ kĩ">
+      <div className="dream__glow" />
+      <h2 className="dream__big display" style={{ transform: `translateX(${p * -80 * k}px)` }}>Ăn ngon</h2>
+      <p className="dream__small display" style={{ transform: `translateX(${p * 60 * k}px)` }}>ngủ thật kĩ</p>
+      <div className="dream__pet" style={{ transform: `translateY(${p * 30}px)` }}>
+        <PetArt kind="cat" size={360} />
+      </div>
+      <Butterfly color="#00B7CD" className="bfly bfly--a" />
+      <Butterfly color="#00B7CD" className="bfly bfly--b" />
+      <Butterfly color="#9B111E" className="bfly bfly--c" />
+      <Butterfly color="#00B7CD" className="bfly bfly--d" />
+    </section>
+  )
+}
+
+/* ================= Danh mục: khối màu vuông ================= */
+export function Categories({ active, onPick }) {
+  const tiles = [
+    ...CATEGORIES.map((c) => ({ id: c.id, label: 'Cho ' + c.name.toLowerCase(), sub: c.count, tone: c.id === 'dog' ? 'yellow' : 'cyan', art: <PetArt kind={c.id} size={210} /> })),
+    { id: 'all', label: 'Cả nhà', sub: 'Tất cả sản phẩm', tone: 'red', art: <img src={logoUrl} alt="" className="tile__logo" /> },
   ]
   return (
-    <section className="stats" ref={ref}>
-      <div className="container stats__row">
-        {items.map((it) => (
-          <div className="stat" key={it.l}>
-            <Icon name={it.ic} size={34} sw={1.5} />
-            <div>
-              <b><Counter to={it.to} suffix={it.s} decimals={it.d} run={run} /></b>
-              <span>{it.l}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-/* ---------- Trích dẫn ---------- */
-export function Quote() {
-  return (
-    <section className="quote">
-      <div className="container quote__grid">
-        <div className="quote__art">
-          <div className="quote__circle"><img src={logoUrl} alt="Logo Canimé" /></div>
-          <PetArt kind="dog" size={120} className="quote__pet quote__pet--dog" />
-          <PetArt kind="cat" size={110} className="quote__pet quote__pet--cat" />
-        </div>
-        <blockquote>
-          <span className="quote__mark">“</span>
-          <p>Từ trái tim đến chiếc bát nhỏ,<br />dinh dưỡng trọn vẹn cho thân và tâm.<br />Khoẻ hơn, vui hơn mỗi ngày —<br />trong từng miếng ăn là yêu thương.</p>
-          <footer><span className="leaf-line" /> Đội ngũ Canimé <span className="leaf-line" /></footer>
-        </blockquote>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- Giới thiệu ---------- */
-export function About() {
-  return (
-    <section className="about" id="about">
-      <div className="container about__grid">
-        <div className="about__text">
-          <h2 className="h2">VỀ <span>CHÚNG TÔI</span></h2>
-          <p>
-            Canimé bắt đầu từ một căn bếp nhỏ ở Sài Gòn, nơi tụi mình tự nấu cơm cho mấy bé chó mèo nhặt về. Giờ đây, mỗi công thức
-            đều được bác sĩ thú y góp ý, nguyên liệu truy xuất rõ nguồn gốc và đóng gói trong ngày.
-          </p>
-          <p>Tụi mình tin: thú cưng ăn đúng thì ít bệnh, vui hơn — và sống lâu hơn bên bạn.</p>
-          <button className="btn btn--primary">Tìm hiểu thêm <Icon name="arrowRight" size={18} /></button>
-        </div>
-        <div className="about__cards">
-          <div className="about__card about__card--yellow"><PetArt kind="dog" size={170} /></div>
-          <div className="about__card about__card--red">
-            <div className="about__feat">
-              <Icon name="sprout" size={30} />
-              <b>Dinh dưỡng cao cấp</b>
-              <span>Nguyên liệu chất lượng cho sức khoẻ toàn diện.</span>
-            </div>
-            <hr />
-            <div className="about__feat">
-              <Icon name="bone" size={30} />
-              <b>Phát triển khoẻ mạnh</b>
-              <span>Hỗ trợ xương chắc, cơ săn và tiêu hoá tốt.</span>
-            </div>
-          </div>
-          <div className="about__card about__card--cyan"><PetArt kind="cat" size={170} /></div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- Danh mục ---------- */
-export function Categories({ active, onPick }) {
-  return (
-    <section className="cats">
+    <section className="section cats" id="cats">
       <div className="container">
-        <div className="section-head">
-          <h2 className="h2">Bé nhà bạn <span>là bé nào?</span></h2>
+        <div className="cats__head reveal">
+          <span className="eyebrow">Phòng ăn của Boss</span>
+          <h2 className="h2 display">Bé nhà bạn<br />là bé nào?</h2>
+          <p>Mỗi bé một khẩu vị. Chọn đúng phòng ăn để tụi mình gợi ý món hợp nhất cho bé nhé.</p>
         </div>
-        <div className="cats__row">
-          {CATEGORIES.map((c) => (
-            <button key={c.id} className={'cat cat--' + c.id + (active === c.id ? ' is-active' : '')} style={{ '--bg': c.bg }}
-              onClick={() => onPick(active === c.id ? 'all' : c.id)}>
-              <span className="cat__text">
-                <small className="cat__count">{c.count}</small>
-                <b>Thức ăn cho {c.name.toLowerCase()}</b>
-                <span className="cat__tagline">{c.tagline}</span>
-                <span className="cat__subs">{c.subs.map((s) => <em key={s}>{s}</em>)}</span>
-                <span className="cat__cta">{active === c.id ? 'Đang xem' : 'Xem sản phẩm'} <Icon name="arrowRight" size={16} /></span>
+        <div className="tiles">
+          {tiles.map((t, i) => (
+            <button key={t.id} className={'tile tile--' + t.tone + (active === t.id ? ' is-active' : '') + ' reveal'}
+              style={{ transitionDelay: i * 0.08 + 's' }} onClick={() => onPick(t.id)}>
+              <span className="tile__art">{t.art}</span>
+              <span className="tile__label">
+                <b>{t.label}</b>
+                <small>{t.sub}</small>
               </span>
-              <span className="cat__art"><PetArt kind={c.id} size={190} /></span>
+              <span className="tile__go"><Icon name="arrowRight" size={18} /></span>
             </button>
           ))}
         </div>
@@ -144,53 +125,151 @@ export function Categories({ active, onPick }) {
   )
 }
 
-/* ---------- Khuyến mãi ---------- */
-export function Offer({ onShop }) {
-  const [left, setLeft] = useState(() => 2 * 86400 + 7 * 3600 + 25 * 60)
-  useEffect(() => {
-    const t = setInterval(() => setLeft((s) => (s > 0 ? s - 1 : 0)), 1000)
-    return () => clearInterval(t)
-  }, [])
-  const parts = [Math.floor(left / 86400), Math.floor((left % 86400) / 3600), Math.floor((left % 3600) / 60), left % 60]
+/* ================= Câu chuyện ================= */
+export function Story() {
   return (
-    <section className="container" id="offer">
-      <div className="offer">
-        <div className="offer__paws" aria-hidden />
-        <div className="offer__art">
-          <PetArt kind="dog" size={220} />
+    <section className="section story" id="story">
+      <div className="container story__grid">
+        <div className="story__text reveal">
+          <span className="eyebrow">Our story</span>
+          <h2 className="h2 display">Câu chuyện<br />của Canimé</h2>
+          <p>
+            Canimé bắt đầu từ một căn bếp nhỏ ở Sài Gòn, nơi tụi mình tự nấu cơm cho mấy bé chó mèo nhặt về. Giờ đây, mỗi công
+            thức đều được bác sĩ thú y góp ý, nguyên liệu rõ nguồn gốc và đóng gói ngay trong ngày.
+          </p>
+          <a href="#story" className="link-arrow" onClick={(e) => e.preventDefault()}>Chuyện của Canimé <Icon name="arrowRight" size={16} /></a>
         </div>
-        <div className="offer__copy">
-          <span className="offer__kicker">Ưu đãi đặc biệt</span>
-          <h2>GIẢM 30%</h2>
-          <p>cho dòng hạt cao cấp — nhập mã <code>CANIME30</code></p>
-          <div className="countdown">
-            {parts.map((p, i) => (
-              <div key={i}><b>{String(p).padStart(2, '0')}</b><small>{['Ngày', 'Giờ', 'Phút', 'Giây'][i]}</small></div>
-            ))}
+        <div className="story__card reveal">
+          <div className="story__logo"><img src={logoUrl} alt="Logo Canimé" /></div>
+          <blockquote>
+            “Từ trái tim đến chiếc bát nhỏ — trong từng miếng ăn là yêu thương.”
+          </blockquote>
+          <PetArt kind="dog" size={130} className="story__pet story__pet--dog" />
+          <PetArt kind="cat" size={120} className="story__pet story__pet--cat" />
+          <Sparkle className="story__spark" />
+        </div>
+      </div>
+      <ul className="container promises">
+        {[['truck', 'Giao nhanh', 'Miễn phí đơn từ 499k'], ['shield', 'Thanh toán an toàn', 'Bảo mật nhiều lớp'], ['refresh', 'Đổi trả dễ', 'Trong vòng 30 ngày'], ['headset', 'Hỗ trợ 24/7', 'Người thật, không bot']].map(([ic, a, b]) => (
+          <li key={a} className="reveal"><span><Icon name={ic} size={22} /></span><div><b>{a}</b><small>{b}</small></div></li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+/* ================= Quy trình ================= */
+export function Process() {
+  const steps = [
+    { n: '01', t: 'Chọn nguyên liệu', d: 'Thịt, cá tươi từ trang trại đạt chuẩn; rau củ mua mỗi sáng ở chợ đầu mối.', ic: 'sprout', tone: 'yellow' },
+    { n: '02', t: 'Nấu chậm & sấy lạnh', d: 'Giữ trọn dưỡng chất và mùi thơm tự nhiên, không phẩm màu, không chất bảo quản.', ic: 'clock', tone: 'cyan' },
+    { n: '03', t: 'Đóng gói & giao ngay', d: 'Túi zip hút ẩm, ghi rõ ngày sản xuất. Giao hoả tốc trong 2 giờ nội thành.', ic: 'box', tone: 'red' },
+  ]
+  return (
+    <section className="section process">
+      <div className="container">
+        <div className="section-head reveal">
+          <div>
+            <span className="eyebrow">Từ bếp đến bát</span>
+            <h2 className="h2 display">Cách tụi mình nấu</h2>
           </div>
-          <button className="btn btn--yellow" onClick={onShop}>Mua ngay <Icon name="arrowRight" size={18} /></button>
+        </div>
+        <ol className="steps3">
+          {steps.map((s, i) => (
+            <li key={s.n} className={'step3 step3--' + s.tone + ' reveal'} style={{ transitionDelay: i * 0.1 + 's' }}>
+              <span className="step3__num display">{s.n}</span>
+              <span className="step3__art"><Icon name={s.ic} size={64} sw={1.4} /></span>
+              <b>{s.t}</b>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+/* ================= Blog ================= */
+export function Blog() {
+  const posts = [
+    { tag: 'Dinh dưỡng', title: 'Bao nhiêu hạt là đủ cho một bé chó 10kg?', who: 'BS. Thú y Minh An', min: 5, pet: 'dog', tone: 'yellow', ex: 'Cách tính khẩu phần theo cân nặng, độ tuổi và mức vận động — kèm bảng tra nhanh.' },
+    { tag: 'Mèo', title: 'Hoàng thượng kén ăn: 7 mẹo khiến bé ăn sạch bát', who: 'Thảo Vy', min: 4, pet: 'cat', tone: 'cyan', ex: 'Từ nhiệt độ thức ăn đến vị trí đặt bát, những điều nhỏ mà mèo rất để ý.' },
+    { tag: 'Chuyển đổi', title: 'Đổi thức ăn mới trong 7 ngày mà không rối bụng', who: 'Đội ngũ Canimé', min: 3, pet: 'dog', tone: 'red', ex: 'Lịch trộn tỉ lệ từng ngày giúp hệ tiêu hoá của bé làm quen nhẹ nhàng.' },
+  ]
+  return (
+    <section className="section blog" id="blog">
+      <div className="container">
+        <div className="section-head reveal">
+          <div>
+            <span className="eyebrow">Blog</span>
+            <h2 className="h2 display">Góc chăm Boss</h2>
+          </div>
+          <a href="#blog" className="link-arrow" onClick={(e) => e.preventDefault()}>Tất cả bài viết <Icon name="arrowRight" size={16} /></a>
+        </div>
+        <div className="posts">
+          {posts.map((p, i) => (
+            <article key={p.title} className="post reveal" style={{ transitionDelay: i * 0.08 + 's' }}>
+              <div className={'post__thumb post__thumb--' + p.tone}>
+                <span className="post__tag">{p.tag}</span>
+                <PetArt kind={p.pet} size={170} />
+              </div>
+              <h3>{p.title}</h3>
+              <div className="post__meta">
+                <span className="post__av">{p.who.split(' ').pop()[0]}</span>
+                <span>{p.who}</span><span className="dotsep">{p.min} phút đọc</span>
+              </div>
+              <p>{p.ex}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
-/* ---------- Cam kết ---------- */
-export function Features() {
-  const f = [
-    ['truck', 'Giao nhanh', 'Miễn phí đơn từ 499k'],
-    ['shield', 'Thanh toán', 'An toàn, bảo mật'],
-    ['refresh', 'Đổi trả dễ', 'Trong vòng 30 ngày'],
-    ['headset', 'Hỗ trợ 24/7', 'Người thật, không bot'],
-  ]
+/* ================= Bong bóng trò chuyện ================= */
+export function ChatBubble() {
+  const [open, setOpen] = useState(false)
+  const [msgs, setMsgs] = useState([{ me: false, t: 'Chào bạn! Mình là Mé của Canimé. Boss nhà bạn là bé chó hay bé mèo nè?' }])
+  const [text, setText] = useState('')
+  const listRef = useRef(null)
+  const replies = {
+    'Bé chó': 'Tuyệt! Bé bao nhiêu kg và mấy tuổi rồi? Mình gợi ý dòng hạt phù hợp liền.',
+    'Bé mèo': 'Hoàng thượng đến rồi! Bé thích vị cá hay vị gà hơn?',
+    'Tư vấn khẩu phần': 'Bạn gửi mình cân nặng của bé nhé, mình tính khẩu phần mỗi ngày cho.',
+  }
+  const send = (t) => {
+    if (!t.trim()) return
+    setMsgs((m) => [...m, { me: true, t }])
+    setText('')
+    setTimeout(() => setMsgs((m) => [...m, { me: false, t: replies[t] || 'Mình đã nhận tin nhắn, nhân viên Canimé sẽ trả lời bạn trong ít phút nữa nha!' }]), 700)
+  }
+  useEffect(() => { listRef.current?.scrollTo({ top: 1e6, behavior: 'smooth' }) }, [msgs])
+
   return (
-    <section className="container features">
-      {f.map(([ic, a, b]) => (
-        <div className="feature" key={a}>
-          <span className="feature__ic"><Icon name={ic} size={24} /></span>
-          <div><b>{a}</b><small>{b}</small></div>
+    <div className={'chat' + (open ? ' is-open' : '')}>
+      {open && (
+        <div className="chat__panel" role="dialog" aria-label="Trò chuyện với Canimé">
+          <div className="chat__head">
+            <span className="chat__av"><img src={logoUrl} alt="" /></span>
+            <div><b>Mé · Canimé</b><small><i className="chat__dot" /> Đang trực tuyến</small></div>
+            <button className="icon-btn" onClick={() => setOpen(false)} aria-label="Đóng"><Icon name="close" size={18} /></button>
+          </div>
+          <div className="chat__list" ref={listRef}>
+            {msgs.map((m, i) => <p key={i} className={'chat__msg' + (m.me ? ' is-me' : '')}>{m.t}</p>)}
+          </div>
+          <div className="chat__quick">
+            {Object.keys(replies).map((q) => <button key={q} onClick={() => send(q)}>{q}</button>)}
+          </div>
+          <form className="chat__form" onSubmit={(e) => { e.preventDefault(); send(text) }}>
+            <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Nhắn cho Canimé…" aria-label="Tin nhắn" />
+            <button type="submit" aria-label="Gửi"><Icon name="arrowRight" size={18} /></button>
+          </form>
         </div>
-      ))}
-    </section>
+      )}
+      <button className="chat__pill" onClick={() => setOpen((o) => !o)}>
+        <Sparkle className="chat__spark" /> <span className="chat__label">{open ? 'Thu gọn' : 'Trò chuyện với chúng tôi'}</span>
+      </button>
+    </div>
   )
 }

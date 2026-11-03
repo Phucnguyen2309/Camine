@@ -32,8 +32,8 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
           const x = 100 + Math.cos(a) * r * 1.5, y = 150 + Math.sin(a) * r * 0.55
           return <ellipse key={i} cx={x} cy={y} rx="9" ry="7" transform={`rotate(${i * 23} ${x} ${y})`} fill={i % 3 ? '#9A5A2E' : '#7A3E1C'} stroke="#5A2A10" strokeWidth="1" />
         })}
-        <text x="100" y="60" textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="18" fill="#4A2618">Hạt giòn, dễ nhai</text>
-        <text x="100" y="82" textAnchor="middle" fontFamily="Be Vietnam Pro, sans-serif" fontSize="11" fill="#8C482D">Kích thước hạt ~ 9mm</text>
+        <text x="100" y="60" textAnchor="middle" fontFamily="Gluten, sans-serif" fontWeight="800" fontSize="18" fill="#4A2618">Hạt giòn, dễ nhai</text>
+        <text x="100" y="82" textAnchor="middle" fontFamily="Bricolage Grotesque, sans-serif" fontSize="11" fill="#8C482D">Kích thước hạt ~ 9mm</text>
       </svg>
     )
   }
@@ -43,12 +43,12 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
     return (
       <svg viewBox="0 0 200 240" width={size} height={size * 1.2} aria-hidden>
         <rect x="26" y="28" width="148" height="190" rx="14" fill="#FFF8E7" stroke="#4A2618" strokeWidth="2" />
-        <text x="100" y="58" textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="17" fill="#4A2618">Thành phần dinh dưỡng</text>
+        <text x="100" y="58" textAnchor="middle" fontFamily="Gluten, sans-serif" fontWeight="800" fontSize="17" fill="#4A2618">Thành phần dinh dưỡng</text>
         <rect x="40" y="66" width="120" height="4" fill={color} />
         {rows.map(([k, v], i) => (
           <g key={k}>
-            <text x="44" y={98 + i * 24} fontFamily="Be Vietnam Pro, sans-serif" fontSize="12" fill="#4A2618">{k}</text>
-            <text x="156" y={98 + i * 24} textAnchor="end" fontFamily="Be Vietnam Pro, sans-serif" fontWeight="700" fontSize="12" fill="#4A2618">{v}</text>
+            <text x="44" y={98 + i * 24} fontFamily="Bricolage Grotesque, sans-serif" fontSize="12" fill="#4A2618">{k}</text>
+            <text x="156" y={98 + i * 24} textAnchor="end" fontFamily="Bricolage Grotesque, sans-serif" fontWeight="700" fontSize="12" fill="#4A2618">{v}</text>
             <path d={`M44 ${105 + i * 24}H156`} stroke="#E6D7BC" />
           </g>
         ))}
@@ -104,7 +104,7 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
           <g>
             <circle cx="100" cy={top + 11} r="12" fill="#FFF8E7" />
             <image href={logoUrl} x="91" y={top + 2} width="18" height="18" />
-            <text x="100" y={top + 38} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="15" letterSpacing="3" fill={pack === 'can' ? '#9B111E' : ink}>CANIMÉ</text>
+            <text x="100" y={top + 38} textAnchor="middle" fontFamily="Gluten, sans-serif" fontWeight="800" fontSize="15" letterSpacing="3" fill={pack === 'can' ? '#9B111E' : ink}>CANIMÉ</text>
           </g>
         )
       })()}
@@ -115,9 +115,9 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
         return (
           <g>
             <rect x="56" y={y0} width="88" height="18" rx="9" fill={pack === 'can' ? color : accent} />
-            <text x="100" y={y0 + 12.5} textAnchor="middle" fontFamily="Be Vietnam Pro, sans-serif" fontWeight="700" fontSize="8.5" letterSpacing="1.2"
+            <text x="100" y={y0 + 12.5} textAnchor="middle" fontFamily="Bricolage Grotesque, sans-serif" fontWeight="700" fontSize="8.5" letterSpacing="1.2"
               fill={isLight(pack === 'can' ? color : accent) ? '#4A2618' : '#FFF8E7'}>{line}</text>
-            <text x="100" y={y0 + 40} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight="800" fontSize="15.5" fill={textInk}>{short}</text>
+            <text x="100" y={y0 + 40} textAnchor="middle" fontFamily="Gluten, sans-serif" fontWeight="800" fontSize="15.5" fill={textInk}>{short}</text>
             <circle cx="100" cy={y0 + 80} r="28" fill="#FFF8E7" stroke={pack === 'can' ? color : accent} strokeWidth="3" />
             <svg x="74" y={y0 + 54} width="52" height="52" viewBox="0 0 120 120"><PetShapes kind={pet} /></svg>
           </g>
@@ -126,7 +126,7 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
 
       <g>
         <rect x="118" y="194" width="40" height="16" rx="8" fill="#FFF8E7" stroke="#4A2618" strokeOpacity=".2" />
-        <text x="138" y="205.5" textAnchor="middle" fontFamily="Be Vietnam Pro, sans-serif" fontWeight="700" fontSize="7.5" fill="#4A2618">{wlabel.length > 8 ? wlabel.split(' ').pop() : wlabel}</text>
+        <text x="138" y="205.5" textAnchor="middle" fontFamily="Bricolage Grotesque, sans-serif" fontWeight="700" fontSize="7.5" fill="#4A2618">{wlabel.length > 8 ? wlabel.split(' ').pop() : wlabel}</text>
       </g>
       <g opacity=".9">
         <ellipse cx="58" cy="204" rx="5" ry="4" fill="#9A5A2E" />

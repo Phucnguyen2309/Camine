@@ -35,6 +35,10 @@ src/styles/global.css         Toàn bộ style, biến màu ở :root
 
 ## Màu & font
 Đỏ đô `#9B111E` · Vàng tươi `#FFC000` · Nâu đất `#8C482D` · Kem nhạt `#FFF8E7` · Xanh cyan `#00B7CD`
-Font: **Baloo 2** (tiêu đề) + **Be Vietnam Pro** (nội dung) — cả hai hỗ trợ tiếng Việt đầy đủ.
+Font: **Gluten** (tiêu đề viết tay) + **Bricolage Grotesque** (nội dung) — cả hai hỗ trợ tiếng Việt đầy đủ.
+
+Vibe: "khu vườn nhỏ mơ màng" (lấy cảm hứng từ yourlengkeng.com) — nền giấy kem, dải chữ chạy, khối màu vuông, menu viên thuốc nổi, bươm bướm, bong bóng chat.
+
+CSS chia 3 file: `styles/global.css` (biến màu, nút, chữ, con trỏ), `styles/home.css` (trang chủ), `styles/shop.css` (chi tiết sản phẩm, giỏ hàng, thanh toán).
 
 Đây là UI thuần (chưa có backend): dữ liệu là mẫu, thanh toán chỉ mô phỏng.
