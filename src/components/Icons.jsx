@@ -43,6 +43,7 @@ const paths = {
   wallet: <><path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a1 1 0 0 1-1-1V7Z" /><path d="M4 7l11-3v3" /><circle cx="16" cy="13.5" r="1.3" /></>,
   qr: <><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2" /></>,
   cash: <><rect x="2.5" y="6" width="19" height="12" rx="2" /><circle cx="12" cy="12" r="2.8" /><path d="M6 9v.01M18 15v.01" /></>,
+  bell: <><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16Z" /><path d="M10 20.5a2 2 0 0 0 4 0" /></>,
   bolt: <path d="M13 3 5 14h6l-1 7 8-11h-6l1-7Z" />,
   bone: <path d="M8 10.5 13.5 16a2.5 2.5 0 1 0 3.5 3.5 2.5 2.5 0 1 0 3.5-3.5 2.5 2.5 0 0 0-3.5-3.5L11.5 7A2.5 2.5 0 1 0 8 3.5 2.5 2.5 0 1 0 4.5 7 2.5 2.5 0 0 0 8 10.5Z" />,
 }
