@@ -39,7 +39,7 @@ export default function PackShot({ product, view = 'front', size = 180, weight }
   }
 
   if (view === 'facts') {
-    const rows = [['Đạm thô', '≥ 28%'], ['Béo thô', '≥ 15%'], ['Xơ thô', '≤ 4%'], ['Độ ẩm', '≤ 10%'], ['Canxi', '≥ 1.1%']]
+    const rows = product.facts || [['Đạm thô', '≥ 28%'], ['Béo thô', '≥ 15%'], ['Xơ thô', '≤ 4%'], ['Độ ẩm', '≤ 10%'], ['Canxi', '≥ 1.1%']]
     return (
       <svg viewBox="0 0 200 240" width={size} height={size * 1.2} aria-hidden>
         <rect x="26" y="28" width="148" height="190" rx="14" fill="#FFF8E7" stroke="#4A2618" strokeWidth="2" />

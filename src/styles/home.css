@@ -273,11 +273,16 @@
 .story__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
 .story__text p { color: var(--ink-2); margin: 22px 0 26px; max-width: 460px; font-size: 16.5px; }
 .story__text .h2 { margin-top: 8px; }
-.story__card { position: relative; background: var(--yellow-l); border-radius: var(--r-lg); min-height: 420px; padding: 50px 40px 150px; display: grid; justify-items: center; align-content: start; gap: 22px; overflow: hidden; }
-.story__logo { width: 130px; height: 130px; border-radius: 50%; background: var(--cream); display: grid; place-items: center; box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.5); animation: float 6s ease-in-out infinite; }
-.story__logo img { width: 66%; }
-.story__card blockquote { margin: 0; text-align: center; font-family: var(--f-head); font-weight: 600; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.2; color: var(--red); max-width: 440px; }
-.story__pet { position: absolute; bottom: -10px; }
+.story__card { position: relative; background: var(--yellow-l); border-radius: var(--r-lg); padding: 34px 40px 40px; display: grid; justify-items: center; overflow: hidden; }
+/* Video dọc 9:16 */
+.svideo { position: relative; z-index: 1; width: min(100%, 330px); aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: var(--brown-d); border: 3px solid var(--ink); box-shadow: 10px 12px 0 rgba(155, 17, 30, 0.18); transform: rotate(-2deg); transition: transform 0.4s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.story__card:hover .svideo { transform: rotate(0); }
+.svideo video { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+.svideo__tag { position: absolute; top: 14px; left: 14px; padding: 5px 12px; border-radius: 999px; background: var(--cream); color: var(--red); font-size: 12px; font-weight: 800; pointer-events: none; }
+.svideo__ctrl { position: absolute; right: 12px; top: 12px; display: flex; gap: 6px; }
+.svideo__ctrl button { width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 248, 231, 0.92); color: var(--ink); display: grid; place-items: center; transition: transform 0.2s, background 0.2s; }
+.svideo__ctrl button:hover { background: var(--yellow); transform: scale(1.08); }
+.story__pet { position: absolute; bottom: -10px; z-index: 2; }
 .story__pet--dog { left: 12%; }
 .story__pet--cat { right: 12%; }
 .story__spark { position: absolute; width: 30px; right: 40px; top: 40px; color: var(--red); animation: twinkle 3s ease-in-out infinite; }
@@ -440,7 +445,9 @@
   .pcard__quick { display: none; }
   .filters { gap: 10px; }
   .chips { margin-left: 0; }
-  .story__card { padding: 36px 22px 130px; min-height: 380px; }
+  .story__card { padding: 26px 18px 34px; }
+  .svideo { width: min(100%, 280px); }
+  .svideo__tag { font-size: 11px; padding: 4px 10px; }
   .story__pet { width: 100px; height: 100px; }
   .promises { gap: 16px; margin-top: 50px; }
   .promises li { flex-direction: column; align-items: flex-start; }
@@ -456,3 +463,28 @@
   .dream__small { left: 0; right: 0; text-align: center; font-size: 12vw; bottom: auto; top: 44%; }
   .footer__tag { font-size: 20px; }
 }
+
+/* Ảnh chụp sản phẩm trong thẻ */
+.pcard__shot.is-photo { position: absolute; inset: 0; }
+.pcard:hover .pcard__shot.is-photo { transform: scale(1.06); }
+.pcard__shot.is-photo + .pcard__quick { z-index: 3; }
+.pcard__name { min-height: 0; }
+.pcard:has(.is-photo) .pcard__name { font-family: var(--f-head); font-weight: 700; font-size: 26px; line-height: 1; padding-top: 6px; }
+.pcard__line { font-size: 13.5px; color: var(--ink-2); font-weight: 600; margin-top: -2px; }
+.shop .grid { grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.footer__cols { grid-template-columns: 0.9fr 1fr 1.4fr; }
+.footer__line svg { flex: none; }
+.footer__line { align-items: flex-start; overflow-wrap: anywhere; }
+.footer__line svg { margin-top: 3px; }
+@media (max-width: 1080px) { .shop .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) {
+  .shop .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pcard:has(.is-photo) .pcard__name { font-size: 21px; }
+  .footer__cols { grid-template-columns: 1fr 1fr; }
+}
+
+
+/* Ảnh bìa bài viết blog */
+.post__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.post:hover .post__thumb .post__img { transform: scale(1.06); }
+.post__tag { z-index: 1; }

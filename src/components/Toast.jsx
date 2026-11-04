@@ -1,4 +1,4 @@
-import PackShot from './PackShot.jsx'
+import ProductImage from './ProductImage.jsx'
 import { Icon } from './Icons.jsx'
 import { useCart } from '../context/CartContext.jsx'
 
@@ -7,7 +7,7 @@ export default function Toast() {
   if (!toast || open) return null
   return (
     <div className="toast" role="status">
-      <span className="toast__img"><PackShot product={toast.product} size={40} /></span>
+      <span className="toast__img"><ProductImage product={toast.product} size={40} /></span>
       <div>
         <b><Icon name="check" size={14} /> Đã thêm vào giỏ</b>
         <small>{toast.name} · {toast.weight}</small>
