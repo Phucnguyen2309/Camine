@@ -1,3 +1,7 @@
 node_modules
 dist
 .DS_Store
+
+# video gốc quá lớn cho GitHub (>100MB) — web dùng src/assets/vid-web.mp4
+src/assets/vid.mp4
+_to_delete/

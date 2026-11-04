@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import PackShot from './PackShot.jsx'
+import ProductImage from './ProductImage.jsx'
+import { petLabel } from './Products.jsx'
 import { Icon, Stars } from './Icons.jsx'
 import { PRODUCTS, REVIEWS, CATEGORIES, formatVND } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
@@ -25,7 +26,7 @@ export default function ProductModal({ product, onClose, onOpen, onBuyNow }) {
   const p = product
   const weight = p.weights[wi]
   const ratio = weight.price / p.price
-  const related = PRODUCTS.filter((x) => x.pet === p.pet && x.id !== p.id).slice(0, 4)
+  const related = PRODUCTS.filter((x) => x.id !== p.id).slice(0, 4)
   const cat = CATEGORIES.find((c) => c.id === p.pet)
 
   return (
@@ -37,19 +38,19 @@ export default function ProductModal({ product, onClose, onOpen, onBuyNow }) {
           <div className="gallery">
             <div className="gallery__main" style={{ '--tint': p.color === '#FFF8E7' ? '#F3E6CC' : p.color + '26' }}>
               {p.badge && <span className="pcard__badge">{p.badge}</span>}
-              <div key={view} className="gallery__img"><PackShot product={p} view={view} size={260} weight={weight.label} /></div>
+              <div key={view} className="gallery__img"><ProductImage product={p} view={view} size={260} weight={weight.label} fit="contain" /></div>
             </div>
             <div className="gallery__thumbs">
-              {['front', 'kibble', 'facts'].map((v) => (
+              {(p.image ? ['front', 'zoom', 'facts'] : ['front', 'kibble', 'facts']).map((v) => (
                 <button key={v} className={'thumb' + (view === v ? ' is-active' : '')} onClick={() => setView(v)} aria-label={v}>
-                  <PackShot product={p} view={v} size={62} />
+                  <ProductImage product={p} view={v} size={62} />
                 </button>
               ))}
             </div>
           </div>
 
           <div className="detail">
-            <span className="detail__cat">Cho {cat?.name.toLowerCase()} · {p.line}</span>
+            <span className="detail__cat">{petLabel(p)} · {p.line}</span>
             <h2 className="detail__name">{p.name}</h2>
             <div className="detail__meta">
               <Stars value={p.rating} /> <b>{p.rating}</b>
@@ -126,7 +127,7 @@ export default function ProductModal({ product, onClose, onOpen, onBuyNow }) {
             <div className="related__row">
               {related.map((r) => (
                 <button key={r.id} className="mini" onClick={() => onOpen(r)}>
-                  <span className="mini__img" style={{ background: r.color === '#FFF8E7' ? '#F3E6CC' : r.color + '22' }}><PackShot product={r} size={58} /></span>
+                  <span className="mini__img" style={{ background: r.color === '#FFF8E7' ? '#F3E6CC' : r.color + '22' }}><ProductImage product={r} size={58} /></span>
                   <span className="mini__txt"><b>{r.short}</b><small>{formatVND(r.price)}</small></span>
                 </button>
               ))}

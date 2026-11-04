@@ -27,7 +27,7 @@ export default function Hero({ onShop, onOffer }) {
             </span>
           </h1>
           <p className="hero__lead">
-            Nơi từng hạt thức ăn được nấu tỉ mỉ từ thịt thật và rau củ tươi, mang theo chút yêu thương nhỏ xinh vào bát của bé mỗi ngày.
+            Nơi từng viên bánh thưởng được sấy tỉ mỉ từ ức gà, cá hồi, phô mai và bí đỏ thật, mang theo chút yêu thương nhỏ xinh cho bé mỗi ngày.
           </p>
           <div className="hero__cta">
             <button className="btn btn--cream" onClick={onShop}>Dạo chơi ngay <Icon name="arrowRight" size={18} /></button>

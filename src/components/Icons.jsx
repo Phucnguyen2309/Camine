@@ -44,6 +44,10 @@ const paths = {
   qr: <><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2" /></>,
   cash: <><rect x="2.5" y="6" width="19" height="12" rx="2" /><circle cx="12" cy="12" r="2.8" /><path d="M6 9v.01M18 15v.01" /></>,
   bell: <><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16Z" /><path d="M10 20.5a2 2 0 0 0 4 0" /></>,
+  play: <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor" />,
+  pause: <><rect x="7" y="5" width="3.5" height="14" rx="1" fill="currentColor" /><rect x="13.5" y="5" width="3.5" height="14" rx="1" fill="currentColor" /></>,
+  volume: <><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4v-5Z" /><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /></>,
+  mute: <><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4v-5Z" /><path d="m16 9.5 5 5M21 9.5l-5 5" /></>,
   bolt: <path d="M13 3 5 14h6l-1 7 8-11h-6l1-7Z" />,
   bone: <path d="M8 10.5 13.5 16a2.5 2.5 0 1 0 3.5 3.5 2.5 2.5 0 1 0 3.5-3.5 2.5 2.5 0 0 0-3.5-3.5L11.5 7A2.5 2.5 0 1 0 8 3.5 2.5 2.5 0 1 0 4.5 7 2.5 2.5 0 0 0 8 10.5Z" />,
 }

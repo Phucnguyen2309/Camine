@@ -3,6 +3,11 @@ import { Icon } from './Icons.jsx'
 import PetArt from './PetArt.jsx'
 import { Butterfly, Sparkle } from './Decor.jsx'
 import logoUrl from '../assets/canime-logo.svg'
+import vidUrl from '../assets/vid-web.mp4'
+import posterUrl from '../assets/vid-poster.jpg'
+import blogDog from '../assets/blog/blog-cho-an.jpg'
+import blogCat from '../assets/blog/blog-meo-an.jpg'
+import blogBowls from '../assets/blog/blog-doi-hat.jpg'
 import { CATEGORIES } from '../data/products.js'
 
 /* ================= Bộ ba ưu đãi (khối màu) ================= */
@@ -140,10 +145,7 @@ export function Story() {
           <a href="#story" className="link-arrow" onClick={(e) => e.preventDefault()}>Chuyện của Canimé <Icon name="arrowRight" size={16} /></a>
         </div>
         <div className="story__card reveal">
-          <div className="story__logo"><img src={logoUrl} alt="Logo Canimé" /></div>
-          <blockquote>
-            “Từ trái tim đến chiếc bát nhỏ — trong từng miếng ăn là yêu thương.”
-          </blockquote>
+          <StoryVideo />
           <PetArt kind="dog" size={130} className="story__pet story__pet--dog" />
           <PetArt kind="cat" size={120} className="story__pet story__pet--cat" />
           <Sparkle className="story__spark" />
@@ -155,6 +157,64 @@ export function Story() {
         ))}
       </ul>
     </section>
+  )
+}
+
+/* Video dọc trong khung Câu chuyện: tự phát (tắt tiếng) khi cuộn tới, dừng khi cuộn qua */
+function StoryVideo() {
+  const ref = useRef(null)
+  const [muted, setMuted] = useState(true)
+  const [paused, setPaused] = useState(false)
+  const userPaused = useRef(false)
+
+  useEffect(() => {
+    const v = ref.current
+    if (!v || !('IntersectionObserver' in window)) return
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !userPaused.current) v.play().catch(() => {})
+      else if (!e.isIntersecting) v.pause()
+    }, { threshold: 0.35 })
+    io.observe(v)
+    return () => io.disconnect()
+  }, [])
+
+  const togglePlay = () => {
+    const v = ref.current
+    if (v.paused) { userPaused.current = false; v.play().catch(() => {}) }
+    else { userPaused.current = true; v.pause() }
+  }
+  const toggleSound = () => {
+    const v = ref.current
+    v.muted = !v.muted
+    setMuted(v.muted)
+    if (!v.muted && v.paused) { userPaused.current = false; v.play().catch(() => {}) }
+  }
+
+  return (
+    <div className="svideo">
+      <video
+        ref={ref}
+        src={vidUrl}
+        poster={posterUrl}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        onPlay={() => setPaused(false)}
+        onPause={() => setPaused(true)}
+        onClick={togglePlay}
+        aria-label="Video một ngày ở tiệm Canimé"
+      />
+      <span className="svideo__tag">Một ngày ở tiệm Canimé</span>
+      <div className="svideo__ctrl">
+        <button onClick={togglePlay} aria-label={paused ? 'Phát video' : 'Tạm dừng video'}>
+          <Icon name={paused ? 'play' : 'pause'} size={18} />
+        </button>
+        <button onClick={toggleSound} aria-label={muted ? 'Bật tiếng' : 'Tắt tiếng'}>
+          <Icon name={muted ? 'mute' : 'volume'} size={18} />
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -192,9 +252,9 @@ export function Process() {
 /* ================= Blog ================= */
 export function Blog() {
   const posts = [
-    { tag: 'Dinh dưỡng', title: 'Bao nhiêu hạt là đủ cho một bé chó 10kg?', who: 'BS. Thú y Minh An', min: 5, pet: 'dog', tone: 'yellow', ex: 'Cách tính khẩu phần theo cân nặng, độ tuổi và mức vận động — kèm bảng tra nhanh.' },
-    { tag: 'Mèo', title: 'Hoàng thượng kén ăn: 7 mẹo khiến bé ăn sạch bát', who: 'Thảo Vy', min: 4, pet: 'cat', tone: 'cyan', ex: 'Từ nhiệt độ thức ăn đến vị trí đặt bát, những điều nhỏ mà mèo rất để ý.' },
-    { tag: 'Chuyển đổi', title: 'Đổi thức ăn mới trong 7 ngày mà không rối bụng', who: 'Đội ngũ Canimé', min: 3, pet: 'dog', tone: 'red', ex: 'Lịch trộn tỉ lệ từng ngày giúp hệ tiêu hoá của bé làm quen nhẹ nhàng.' },
+    { tag: 'Dinh dưỡng', title: 'Bao nhiêu hạt là đủ cho một bé chó 10kg?', who: 'BS. Thú y Minh An', min: 5, pet: 'dog', tone: 'yellow', img: blogDog, pos: '62% 50%', ex: 'Cách tính khẩu phần theo cân nặng, độ tuổi và mức vận động — kèm bảng tra nhanh.' },
+    { tag: 'Mèo', title: 'Hoàng thượng kén ăn: 7 mẹo khiến bé ăn sạch bát', who: 'Thảo Vy', min: 4, pet: 'cat', tone: 'cyan', img: blogCat, pos: '50% 62%', ex: 'Từ nhiệt độ thức ăn đến vị trí đặt bát, những điều nhỏ mà mèo rất để ý.' },
+    { tag: 'Chuyển đổi', title: 'Đổi thức ăn mới trong 7 ngày mà không rối bụng', who: 'Đội ngũ Canimé', min: 3, pet: 'dog', tone: 'red', img: blogBowls, pos: '50% 55%', ex: 'Lịch trộn tỉ lệ từng ngày giúp hệ tiêu hoá của bé làm quen nhẹ nhàng.' },
   ]
   return (
     <section className="section blog" id="blog">
@@ -211,7 +271,7 @@ export function Blog() {
             <article key={p.title} className="post reveal" style={{ transitionDelay: i * 0.08 + 's' }}>
               <div className={'post__thumb post__thumb--' + p.tone}>
                 <span className="post__tag">{p.tag}</span>
-                <PetArt kind={p.pet} size={170} />
+                {p.img ? <img src={p.img} alt="" className="post__img" style={{ objectPosition: p.pos }} loading="lazy" /> : <PetArt kind={p.pet} size={170} />}
               </div>
               <h3>{p.title}</h3>
               <div className="post__meta">

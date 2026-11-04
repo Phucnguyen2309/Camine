@@ -43,9 +43,9 @@ export default function Footer({ onNav }) {
           </div>
           <div>
             <h4>Liên hệ</h4>
-            <span className="footer__line"><Icon name="phone" size={16} /> 0901 234 567</span>
-            <span className="footer__line"><Icon name="mail" size={16} /> hello@canime.vn</span>
-            <span className="footer__line"><Icon name="pin" size={16} /> 123 Lê Lợi, Q.1, TP.HCM</span>
+            <span className="footer__line"><Icon name="phone" size={16} /> +84 92 919 66 34</span>
+            <span className="footer__line"><Icon name="mail" size={16} /> canimelop4nhom6@gmail.com</span>
+            <span className="footer__line"><Icon name="pin" size={16} /> 69/68 Đặng Thuỳ Trâm, An Nhơn, TP. Hồ Chí Minh</span>
           </div>
         </div>
       </div>
@@ -54,9 +54,9 @@ export default function Footer({ onNav }) {
         <Logo light size={40} onClick={() => onNav && onNav('top')} />
         <p className="footer__tag"><Sparkle className="footer__spark" /> Made with love for every Boss</p>
         <div className="socials">
-          <a href="#" aria-label="Facebook">{Social.facebook()}</a>
+          <a href="https://www.facebook.com/profile.php?id=61595154759863" target="_blank" rel="noopener noreferrer" aria-label="Facebook Canimé">{Social.facebook()}</a>
           <a href="#" aria-label="Instagram">{Social.instagram()}</a>
-          <a href="#" aria-label="TikTok">{Social.tiktok()}</a>
+          <a href="https://www.tiktok.com/@canime06_" target="_blank" rel="noopener noreferrer" aria-label="TikTok Canimé">{Social.tiktok()}</a>
           <a href="#" aria-label="YouTube">{Social.youtube()}</a>
         </div>
       </div>

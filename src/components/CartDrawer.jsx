@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import PackShot from './PackShot.jsx'
+import ProductImage from './ProductImage.jsx'
 import PetArt from './PetArt.jsx'
 import { Icon } from './Icons.jsx'
 import { formatVND } from '../data/products.js'
@@ -49,7 +49,7 @@ export function CartLine({ item, compact }) {
   return (
     <li className="line">
       <span className="line__img" style={{ background: item.product.color === '#FFF8E7' ? '#F3E6CC' : item.product.color + '22' }}>
-        <PackShot product={item.product} size={compact ? 46 : 58} />
+        <ProductImage product={item.product} size={compact ? 46 : 58} />
       </span>
       <div className="line__info">
         <b>{item.name}</b>
