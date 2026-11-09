@@ -25,7 +25,7 @@ export const PRODUCTS = [
     facts: [['Protein', 'Cao'], ['Chất béo', 'Thấp'], ['Thành phần', '1 loại'], ['Phẩm màu', 'Không'], ['Bảo quản', 'Tự nhiên']],
   },
   {
-    id: 'cahoi', name: 'Cá Hồi', short: 'Cá Hồi', line: 'CÁ HỒI SẤY',
+    id: 'cahoi', name: 'Salmie', short: 'Salmie', line: 'CÁ HỒI SẤY',
     image: imgCaHoi, pets: BOTH, pet: 'dog', type: 'snack', color: '#00B7CD', accent: '#9B111E',
     price: 109000, rating: 4.8, reviews: 204, sold: '860', best: true,
     weights: w(109000, SIZES),
@@ -34,7 +34,7 @@ export const PRODUCTS = [
     facts: [['Protein', 'Cao'], ['Omega-3', 'Giàu'], ['Chất béo', 'Vừa'], ['Phẩm màu', 'Không'], ['Bảo quản', 'Tự nhiên']],
   },
   {
-    id: 'phomaisua', name: 'Phô Mai Sữa', short: 'Phô Mai Sữa', line: 'PHÔ MAI SỮA',
+    id: 'phomaisua', name: 'Chezz', short: 'Chezz', line: 'PHÔ MAI SỮA',
     image: imgPhoMaiSua, pets: BOTH, pet: 'dog', type: 'snack', color: '#FFC000', accent: '#9B111E',
     price: 95000, rating: 4.9, reviews: 176, sold: '740', badge: 'Mới', best: true,
     weights: w(95000, SIZES),
@@ -64,7 +64,7 @@ export const PRODUCTS = [
 
 export const REVIEWS = [
   { name: 'Minh Thư', pet: 'Mochi · Corgi 2 tuổi', stars: 5, text: 'Bé nhà mình kén ăn mà đổ ra là ăn sạch bát. Lông mượt hẳn sau 3 tuần.' },
-  { name: 'Quốc Bảo', pet: 'Mướp · mèo ta', stars: 5, text: 'Giao nhanh, hũ thuỷ tinh xinh lắm, mèo nhà mình mê vị Cá Hồi. Sẽ mua lại.' },
+  { name: 'Quốc Bảo', pet: 'Mướp · mèo ta', stars: 5, text: 'Giao nhanh, hũ thuỷ tinh xinh lắm, mèo nhà mình mê vị Salmie. Sẽ mua lại.' },
   { name: 'Thảo Vy', pet: 'Lu · Poodle', stars: 4, text: 'Miếng nhỏ vừa miệng, mùi thơm nhẹ không bị hắc, dùng tập lệnh rất tiện.' },
 ]
 
