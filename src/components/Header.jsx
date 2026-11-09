@@ -74,7 +74,7 @@ export default function Header({ onNav, onCategory, query, setQuery, onSearch })
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Tìm vị bánh thưởng: Chicko, Cá Hồi, Phô Mai Sữa…"
+          placeholder="Tìm vị bánh thưởng: Chicko, Salmie, Chezz…"
           aria-label="Tìm sản phẩm"
           tabIndex={search ? 0 : -1}
         />

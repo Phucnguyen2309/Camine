@@ -90,7 +90,7 @@ export function Collection({ onOpen, onViewAll }) {
             đựng trong hũ thuỷ tinh có thẻ tên viết tay.
           </p>
           <div className="reveal">
-            <p>Năm vị Chicko, Cá Hồi, Phô Mai Sữa, Mixie và Pumpi — 100% nguyên liệu thật, không phẩm màu, không chất bảo quản nhân tạo.</p>
+            <p>Năm vị Chicko, Salmie, Chezz, Mixie và Pumpi — 100% nguyên liệu thật, không phẩm màu, không chất bảo quản nhân tạo.</p>
             <button className="btn btn--cyan btn--sm" onClick={onViewAll}>Tìm hiểu thêm</button>
           </div>
         </div>
